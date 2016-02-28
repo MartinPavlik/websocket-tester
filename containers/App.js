@@ -1,8 +1,10 @@
-import React from 'react'
-import { Component } from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import classNames from 'classnames'
+import MessageForm from '../components/MessageForm'
+import ConnectionSettings from '../components/ConnectionSettings'
+import MessageList from '../components/MessageList'
 
 class Node extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class Node extends Component {
   }
 
   render() {
-    const {username, password, logged, users} = this.props
+    const {messages, connected, requestConnection, changeUrl, url, sendMessage, changeMessageText, newMessageText} = this.props
     return (
       <div className='container'>
         <div className='row'>
@@ -20,10 +22,11 @@ class Node extends Component {
         </div>
         <div className='row'>
           <div className='col-xs-12 col-md-6'>
-            <h2>Processs</h2>
+            <ConnectionSettings handleSubmit={requestConnection} handleUrlChange={changeUrl} url={url} connected={connected} />
+            {connected && <MessageForm handleSubmit={sendMessage} handleMessageChange={changeMessageText} value={newMessageText} />}
           </div>
           <div className='col-xs-12 col-md-6'>
-            <h2>History</h2>
+            <MessageList messages={messages} />
           </div>
         </div>
       </div>
